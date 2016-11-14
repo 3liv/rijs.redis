@@ -21,7 +21,6 @@ var _key = require('utilise/key');
 
 var _key2 = _interopRequireDefault(_key);
 
-/* istanbul ignore next */
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 // -------------------------------------------
@@ -50,14 +49,16 @@ var init = function init(ripple) {
     crud = function crud(con) {
   return function (type) {
     return function (res, change) {
+      var name = res.name,
+          body = res.body;
       var key = change.key,
           value = change.value,
           type = change.type;
 
-      return con.get(key).then(function (r) {
+      return con.get(name).then(function (r) {
         return !!r && JSON.parse(r);
       }).then(function (r) {
-        !!r && (0, _set2.default)(change)(r);!!r && con.set(key, JSON.stringify(r));
+        var v = !!r && (0, _set2.default)(change)(r) || value;!!v && con.set(name, JSON.stringify(v));
       });
     };
   };

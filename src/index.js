@@ -19,12 +19,13 @@ const init = ripple => config => {
 }
 
 , crud = con => type => (res, change) => {
+    const { name, body } = res
     const { key, value, type } = change
-    return con.get(key)
+    return con.get(name)
             .then(r => !!r && JSON.parse(r))
             .then( r => {
-                !!r && set(change)(r)
-                ;!! r && con.set(key, JSON.stringify(r))
+                let v = !!r && set(change)(r) || value
+                ;!!v && con.set(name, JSON.stringify(v))
             })
             
 }

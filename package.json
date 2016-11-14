@@ -12,7 +12,7 @@
     "ignore": "find ./dist -type f -exec sed -i \"s/function _interopRequire/\\/* istanbul ignore next *\\/\\nfunction _interopRequire/g\" {} ;",
     "babel": "babel src -d dist",
     "clean": "rm -rf dist && mkdir dist",
-    "build": "npm run clean && npm run babel && npm run ignore",
+    "build": "npm run clean && npm run babel",
     "test": "istanbul test ./node_modules/mocha/bin/_mocha --report html -- -R spec",
     "coverage": "istanbul cover ./node_modules/mocha/bin/_mocha --report lcovonly -- -R spec && rm -rf ./coverage",
     "cov": "istanbul cover ./node_modules/mocha/bin/_mocha -- -R spec",
