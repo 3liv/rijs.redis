@@ -21,11 +21,13 @@ const init = ripple => config => {
 , crud = con => type => (res, change) => {
     const { name, body } = res
     const { key, value, type } = change
+    log(`${type} ${name} ${key}`)
+    log(value)
     return con.get(name)
-            .then(r => !!r && JSON.parse(r))
+            .then(r => !!r && JSON.parse(r, recycl()))
             .then( r => {
                 let v = !!r && set(change)(r) || value
-                ;!!v && con.set(name, JSON.stringify(v))
+                ;!!v && con.set(name, JSON.stringify(v, decycl()))
             })
             
 }
@@ -62,5 +64,8 @@ import set from 'utilise/set'
 import key from 'utilise/key'
 const loaded = 'headers.redis.loaded'
 const crypto = require('crypto')
+    , jsutil = require('json-decycle')
+    , decycl = jsutil.decycle
+    , recycl = jsutil.retrocycle
     , log = require('utilise/log')('[ri/redis]')
     , err = require('utilise/err')('[ri/redis]')

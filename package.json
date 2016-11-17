@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "ioredis": "*",
+    "json-decycle": "^1.0.0",
     "utilise": "*"
   }
 }

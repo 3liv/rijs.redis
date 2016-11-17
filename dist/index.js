@@ -55,10 +55,12 @@ var init = function init(ripple) {
           value = change.value,
           type = change.type;
 
+      log(type + ' ' + name + ' ' + key);
+      log(value);
       return con.get(name).then(function (r) {
-        return !!r && JSON.parse(r);
+        return !!r && JSON.parse(r, recycl());
       }).then(function (r) {
-        var v = !!r && (0, _set2.default)(change)(r) || value;!!v && con.set(name, JSON.stringify(v));
+        var v = !!r && (0, _set2.default)(change)(r) || value;!!v && con.set(name, JSON.stringify(v, decycl()));
       });
     };
   };
@@ -96,5 +98,8 @@ var init = function init(ripple) {
 
 var loaded = 'headers.redis.loaded';
 var crypto = require('crypto'),
+    jsutil = require('json-decycle'),
+    decycl = jsutil.decycle,
+    recycl = jsutil.retrocycle,
     log = require('utilise/log')('[ri/redis]'),
     err = require('utilise/err')('[ri/redis]');
