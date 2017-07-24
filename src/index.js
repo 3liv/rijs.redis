@@ -21,7 +21,7 @@ const init = ripple => config => {
 , crud = con => type => (res, change) => {
     const { name, body } = res
     const { key, value, type } = change
-    log(`${type} ${name} ${key}`)
+    log(`${type} ${name} using key: ${key}`)
     log(value)
     return con.get(name)
             .then(r => !!r && JSON.parse(r, recycl()))
@@ -29,6 +29,7 @@ const init = ripple => config => {
                 let v = !!r && set(change)(r) || value
                 ;!!v && con.set(name, JSON.stringify(v, decycl()))
             })
+            .catch(() => null)
             
 }
 
@@ -51,6 +52,7 @@ const init = ripple => config => {
       redis.get(key)
         .then( d => (!!d && JSON.parse(d)) || fn(arg) )
         .then( d => { redis.set(key, JSON.stringify(d)); p.resolve(d) } )
+        .catch(() => null)
       return p
    }
 }

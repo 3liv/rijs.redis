@@ -55,12 +55,14 @@ var init = function init(ripple) {
           value = change.value,
           type = change.type;
 
-      log(type + ' ' + name + ' ' + key);
+      log(type + ' ' + name + ' using key: ' + key);
       log(value);
       return con.get(name).then(function (r) {
         return !!r && JSON.parse(r, recycl());
       }).then(function (r) {
         var v = !!r && (0, _set2.default)(change)(r) || value;!!v && con.set(name, JSON.stringify(v, decycl()));
+      }).catch(function () {
+        return null;
       });
     };
   };
@@ -90,6 +92,8 @@ var init = function init(ripple) {
         return !!d && JSON.parse(d) || fn(arg);
       }).then(function (d) {
         redis.set(key, JSON.stringify(d));p.resolve(d);
+      }).catch(function () {
+        return null;
       });
       return p;
     };
